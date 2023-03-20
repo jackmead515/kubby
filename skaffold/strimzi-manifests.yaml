@@ -1,0 +1,10 @@
+apiVersion: skaffold/v4beta1
+kind: Config
+metadata:
+  name: strimzi-manifests
+manifests:
+  kustomize:
+    paths:
+      - ../kubernetes/base/strimzi
+deploy:
+  kubectl: {}

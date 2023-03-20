@@ -1,0 +1,106 @@
+apiVersion: skaffold/v4beta1
+kind: Config
+metadata:
+  name: kube-prometheus
+manifests:
+  helm:
+    releases:
+      - name: kube-prometheus
+        remoteChart: kube-prometheus-stack
+        namespace: monitoring
+        version: 44.3.0
+        createNamespace: false
+        repo:  https://prometheus-community.github.io/helm-charts
+        setValues:
+
+
+          # ALERT MANAGER SETTINGS
+          alertmanager.alertmanagerSpec.replicas: 2
+          alertmanager.alertmanagerSpec.alertmanagerConfigSelector:
+            matchLabels:
+              alertmanager: config
+          alertmanager.alertmanagerSpec.retention: 120h
+          alertmanager.alertmanagerSpec.storage: {}
+
+
+          # GRAFANA SETTINGS
+          grafana.defaultDashboardsTimezone: utc
+          grafana.adminPassword: admin
+          grafana.service.type: NodePort
+          grafana.service.nodePort: 30100
+          grafana.plugins:
+            - hamedkarbasi93-kafka-datasource
+            - innius-grpc-datasource
+            - redis-datasource
+
+
+          # PROMETHEUS SETTINGS
+          ## monitor all service monitors in all namespaces that have the label monitoring: service
+          prometheus.prometheusSpec.serviceMonitorSelectorNilUsesHelmValues: false
+          prometheus.prometheusSpec.serviceMonitorNamespaceSelector:
+            matchLabels:
+              serviceMonitoring: "monitor"
+          ## monitor all pod monitors in all namespaces that have the label monitoring: pod
+          prometheus.prometheusSpec.podMonitorSelectorNilUsesHelmValues: false
+          prometheus.prometheusSpec.podMonitorNamespaceSelector:
+            matchLabels:
+              podMonitoring: "monitor"
+          ## monitor all probes in all namespaces that have the label monitoring: probe
+          prometheus.prometheusSpec.probeSelectorNilUsesHelmValues: false
+          prometheus.prometheusSpec.probeNamespaceSelector:
+            matchLabels:
+              probeMonitoring: "monitor"
+          ## monitor all rules in all namespaces that have the label monitoring: rule
+          prometheus.prometheusSpec.ruleSelectorNilUsesHelmValues: false
+          prometheus.prometheusSpec.ruleNamespaceSelector:
+            matchLabels:
+              ruleMonitoring: "monitor"
+          prometheus.prometheusSpec.scrapeInterval: 30s
+          prometheus.prometheusSpec.scrapeTimeout: 10s
+          prometheus.prometheusSpec.enableAdminAPI: false
+          prometheus.prometheusSpec.enableFeatures:
+            - exemplar-storage
+          prometheus.prometheusSpec.additionalArgs:
+            - name: query.lookback-delta
+              value: '1m'
+          prometheus.prometheusSpec.retention: 120h
+          prometheus.prometheusSpec.replicas: 1
+          prometheus.prometheusSpec.resources:
+            requests:
+              cpu: 100m
+              memory: 512Mi
+            limits:
+              cpu: 700m
+              memory: 2048Mi
+          ## disable all selectors for how to find rules, service monitors, pod monitors, probes
+          prometheus.prometheusSpec.ruleSelector: {}
+          prometheus.prometheusSpec.serviceMonitorSelector: {}
+          prometheus.prometheusSpec.podMonitorSelector: {}
+          prometheus.prometheusSpec.probeSelector: {}
+          prometheus.prometheusSpec.storageSpec:
+            volumeClaimTemplate:
+              spec:
+                accessModes:
+                  - ReadWriteOnce
+                storageClassName: local-path
+                volumeMode: Filesystem
+                resources:
+                  requests:
+                    storage: 100Gi
+
+
+          # PROMETHEUS OPERATOR SETTINGS
+          prometheusOperator.namespaces: ''
+          prometheusOperator.denyNamespaces: ''
+          prometheusOperator.prometheusInstanceNamespaces: ''
+          prometheusOperator.alertmanagerInstanceNamespaces: ''
+          prometheusOperator.thanosRulerInstanceNamespaces: ''
+          prometheusOperator.prometheusConfigReloader.resources:
+            limits:
+              cpu: 32m
+              memory: 128Mi
+            requests:
+              cpu: 32m
+              memory: 128Mi
+deploy:
+  helm: {}

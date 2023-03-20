@@ -1,0 +1,10 @@
+apiVersion: skaffold/v4beta1
+kind: Config
+metadata:
+  name: namespaces
+manifests:
+  kustomize:
+    paths:
+      - ../kubernetes/base/namespaces
+deploy:
+  kubectl: {}

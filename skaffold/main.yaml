@@ -1,0 +1,13 @@
+apiVersion: skaffold/v4beta1
+kind: Config
+metadata:
+  name: main
+requires:
+  - configs: [namespaces]
+    path: namespaces.yaml
+  - configs: [kube-prometheus]
+    path: kube-prometheus.yaml
+  - configs: [strimzi]
+    path: strimzi.yaml
+  - configs: [dask]
+    path: dask.yaml

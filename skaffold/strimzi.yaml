@@ -1,0 +1,9 @@
+apiVersion: skaffold/v4beta1
+kind: Config
+metadata:
+  name: strimzi
+requires:
+  - configs: [strimzi-operator]
+    path: strimzi-operator.yaml
+  - configs: [strimzi-manifests]
+    path: strimzi-manifests.yaml
