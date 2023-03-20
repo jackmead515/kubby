@@ -1,0 +1,15 @@
+apiVersion: skaffold/v4beta1
+kind: Config
+metadata:
+  name: nginx-ingress
+manifests:
+  helm:
+    releases:
+      - name: nginx-ingress
+        remoteChart: nginx-ingress
+        namespace: ingress
+        version: 0.16.2
+        createNamespace: true
+        repo: https://helm.nginx.com/stable
+deploy:
+  helm: {}

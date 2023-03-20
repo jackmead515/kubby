@@ -28,10 +28,6 @@ manifests:
           grafana.adminPassword: admin
           grafana.service.type: NodePort
           grafana.service.nodePort: 30100
-          grafana.plugins:
-            - hamedkarbasi93-kafka-datasource
-            - innius-grpc-datasource
-            - redis-datasource
 
 
           # PROMETHEUS SETTINGS
@@ -65,13 +61,6 @@ manifests:
               value: '1m'
           prometheus.prometheusSpec.retention: 120h
           prometheus.prometheusSpec.replicas: 1
-          prometheus.prometheusSpec.resources:
-            requests:
-              cpu: 100m
-              memory: 512Mi
-            limits:
-              cpu: 700m
-              memory: 2048Mi
           ## disable all selectors for how to find rules, service monitors, pod monitors, probes
           prometheus.prometheusSpec.ruleSelector: {}
           prometheus.prometheusSpec.serviceMonitorSelector: {}
@@ -86,7 +75,7 @@ manifests:
                 volumeMode: Filesystem
                 resources:
                   requests:
-                    storage: 100Gi
+                    storage: 20Gi
 
 
           # PROMETHEUS OPERATOR SETTINGS
