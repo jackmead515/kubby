@@ -1,0 +1,15 @@
+apiVersion: skaffold/v4beta1
+kind: Config
+metadata:
+  name: minio
+manifests:
+  helm:
+    releases:
+      - name: minio
+        remoteChart: minio
+        namespace: minio
+        version: 12.1.13
+        createNamespace: false
+        repo: https://charts.bitnami.com/bitnami
+deploy:
+  helm: {}

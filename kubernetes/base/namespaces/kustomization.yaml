@@ -5,3 +5,4 @@ resources:
   - dask.yaml
   - kafka.yaml
   - monitoring.yaml
+  - minio.yaml

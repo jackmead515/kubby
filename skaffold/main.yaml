@@ -11,3 +11,5 @@ requires:
     path: strimzi.yaml
   - configs: [dask]
     path: dask.yaml
+  - configs: [minio]
+    path: minio.yaml
