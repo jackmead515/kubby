@@ -41,7 +41,13 @@ nano /var/lib/zerotier-one/local.conf
 ## Install K3S
 
 ### Install Control Plane
+
+```
 curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--node-ip=172.23.0.100 --flannel-iface=ztwdjhesdk --disable=traefik --disable=servicelb" INSTALL_K3S_VERSION="v1.25.7+k3s1" sh -
+```
 
 ### Install Worker Node
+
+```
 curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--node-ip=172.23.0.102 --flannel-iface=ztwdjhesdk" K3S_URL="https://172.23.0.100:6443" INSTALL_K3S_VERSION="v1.25.7+k3s1" K3S_TOKEN="K10f0854fd03b7effd479a985188d862cb475696c3742af9718179f2f41fa0d1b5e::server:8afb4379f2f387cf5db6765bdc2df6c2" sh -
+```
