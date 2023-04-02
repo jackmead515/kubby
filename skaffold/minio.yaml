@@ -11,5 +11,10 @@ manifests:
         version: 12.1.13
         createNamespace: false
         repo: https://charts.bitnami.com/bitnami
+        setValues:
+          service.type: "NodePort"
+          service.nodePorts.api: "30140"
+          service.nodePorts.console: "30141"
+          persistence.size: "50Gi"
 deploy:
   helm: {}
