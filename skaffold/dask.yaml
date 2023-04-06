@@ -23,7 +23,20 @@ manifests:
               cpu: 2
               memory: 4Gi
           worker.custom_scheduler_url: "tcp://dask-scheduler.dask.svc.cluster.local:8786"
+          worker.mounts:
+            volumes:
+              - name: data
+                emptyDir:
+                  medium: Memory
+                  sizeLimit: 64Mi
+            volumeMounts:
+              - mountPath: /tmp/biocam
+                name: data
           worker.env:
+            - name: AWS_ACCESS_KEY_ID
+              value: ""
+            - name: AWS_SECRET_ACCESS_KEY
+              value: ""
             - name: EXTRA_PIP_PACKAGES
               value: |
                 dask-ml[complete]==2023.3.24 \
