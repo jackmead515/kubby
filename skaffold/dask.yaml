@@ -17,14 +17,23 @@ manifests:
           jupyter.enabled: false
           worker.resources:
             limits:
-              cpu: 1
+              cpu: 2
               memory: 4Gi
             requests:
-              cpu: 1
+              cpu: 2
               memory: 4Gi
           worker.custom_scheduler_url: "tcp://dask-scheduler.dask.svc.cluster.local:8786"
           worker.env:
             - name: EXTRA_PIP_PACKAGES
-              value: opencv-python==4.7.0.72 streamz==0.6.4 kafka-python==2.0.2 zarr==2.14.2 deltalake==0.8.1 s3fs --upgrade
+              value: |
+                dask-ml[complete]==2023.3.24 \
+                opencv-python-headless==4.7.0.72 \
+                streamz==0.6.4 \
+                kafka-python==2.0.2 \
+                zarr==2.14.2 \
+                deltalake==0.8.1 \
+                s3fs \
+                boto3 \
+                --upgrade
 deploy:
   helm: {}
