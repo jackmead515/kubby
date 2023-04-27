@@ -26,6 +26,14 @@ InfluxDB is here because it's such a kick ass time series database.
 
 ## Install Zerotier
 
+Setup some other stuff
+
+```
+sudo apt install openssh-server curl
+
+sudo ufw disable
+```
+
 Install zerotier normally through their process. But disable routing via flannel (I default to use flannel with K3S).
 
 ```
