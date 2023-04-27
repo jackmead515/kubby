@@ -29,6 +29,12 @@ InfluxDB is here because it's such a kick ass time series database.
 Install zerotier normally through their process. But disable routing via flannel (I default to use flannel with K3S).
 
 ```
+curl -s https://install.zerotier.com | sudo bash
+
+
+sudo zerotier-cli join <network_id>
+
+
 nano /var/lib/zerotier-one/local.conf
 
 {
