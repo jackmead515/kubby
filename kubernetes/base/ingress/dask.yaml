@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: dask-ingress
+  namespace: dask
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: dask-ui.kubby.ninja
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: dask-scheduler
+                port:
+                  number: 80
+    - host: dask-api.kubby.ninja
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: dask-scheduler
+                port:
+                  number: 8786

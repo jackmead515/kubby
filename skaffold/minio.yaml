@@ -9,7 +9,7 @@ manifests:
         remoteChart: minio
         namespace: minio
         version: 12.1.13
-        createNamespace: false
+        createNamespace: true
         repo: https://charts.bitnami.com/bitnami
         setValues:
           service.type: "NodePort"

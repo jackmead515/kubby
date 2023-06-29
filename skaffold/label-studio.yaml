@@ -9,7 +9,7 @@ manifests:
         remoteChart: label-studio
         namespace: label
         version: 1.1.4
-        createNamespace: false
+        createNamespace: true
         repo: https://charts.heartex.com
 deploy:
   helm: {}

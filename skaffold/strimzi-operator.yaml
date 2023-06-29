@@ -9,7 +9,7 @@ manifests:
         remoteChart: strimzi-kafka-operator
         namespace: kafka
         version: 0.33.2
-        createNamespace: false
+        createNamespace: true
         repo: https://strimzi.io/charts
 deploy:
   helm: {}

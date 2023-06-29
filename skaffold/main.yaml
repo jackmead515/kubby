@@ -3,8 +3,12 @@ kind: Config
 metadata:
   name: main
 requires:
-  - configs: [namespaces]
-    path: namespaces.yaml
+  - configs: [metallb]
+    path: metallb.yaml
+  - configs: [ingress-nginx]
+    path: ingress-nginx.yaml
+  - configs: [ingress]
+    path: ingress.yaml
   - configs: [kube-prometheus]
     path: kube-prometheus.yaml
   - configs: [strimzi]
@@ -13,3 +17,5 @@ requires:
     path: dask.yaml
   - configs: [minio]
     path: minio.yaml
+  - configs: [label-studio]
+    path: label-studio.yaml

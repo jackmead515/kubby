@@ -1,0 +1,45 @@
+apiVersion: skaffold/v4beta1
+kind: Config
+metadata:
+  name: ingress-nginx
+manifests:
+  helm:
+    releases:
+      - name: ingress-nginx
+        remoteChart: ingress-nginx
+        namespace: ingress-nginx
+        version: 4.6.1
+        createNamespace: true
+        repo: https://kubernetes.github.io/ingress-nginx
+        setValues:
+          controller:
+            config:
+              worker-processes: "8"
+              worker-connections: "16384"
+              max-worker-open-files: "0"
+              ssl-session-cache: "shared"
+              ssl-session-tickets: "on"
+              ssl-session-timeout: "5m"
+              ssl-buffer-size: "4k"
+              keepalive: "10"
+              service-upstream: "false"
+              proxy-buffering: "off"
+              keep-alive-requests: "1000"
+              proxy-connect-timeout: "10s"
+              proxy-read-timeout: "60s"
+              proxy-write-timeout: "60s"
+              client-body-buffer-size: "32k"
+              use-gzip: "false"
+            service:
+              type: NodePort
+              nodePorts:
+                http: 30080
+                https: 30443
+            metrics:
+              enabled: true
+              serviceMonitor:
+                enabled: true
+                additionalLabels:
+                  release: kube-prometheus
+deploy:
+  helm: {}
