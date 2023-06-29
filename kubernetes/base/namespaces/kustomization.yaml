@@ -6,3 +6,4 @@ resources:
   - kafka.yaml
   - monitoring.yaml
   - minio.yaml
+  - label.yaml

@@ -15,6 +15,9 @@ manifests:
           service.type: "NodePort"
           service.nodePorts.api: "30140"
           service.nodePorts.console: "30141"
+          auth.rootPassword: "admin123"
+          statefulset.replicaCount: 4
           persistence.size: "50Gi"
+          mode: "distributed"
 deploy:
   helm: {}

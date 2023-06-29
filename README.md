@@ -1,28 +1,18 @@
 # KUBBY
 
-This is just my personal Kubernetes manifest repository.
+![Kubby Diagram](kubby.png)
 
-I have a lot of stuff in here that I want to put. Lots of distributed computation frameworks, storage systems, some other junk.
+So listen... what is Kubby? It really is just my personal Kubernetes manifest repository where I keep everything I want. But it can be more than that.
 
-Anyone can use it. I've written a guide on how to deploy it. It's Kubernetes! It's pretty straight forward.
+See I'm really into data science. But I absolutely hate paying for services. And I don't really have too! All the tools you and I need are open sourced already. The problem is they are just not organized.
 
-I have this setup on my distributed network using [Zerotier](https://www.zerotier.com/). I have some computers at home and at the office. Raspberry Pi's, old laptops, a desktop computer. Honestly it's really just a spagetti monster of whatever machine I can install K3S on. It's pretty sweet because I can install a Zerotier client on my cell phone and then I have access to my Kubernetes services wherever in the world I happen to be!
+That's what Kubby is. It's a completely self contained, personalized compute cluster, with every tool for data science you could want. No dependencies on cloud providers. This is meant for SUPER bare metal.
 
+Like, I'm talking some old Raspberry Pi's, well used laptops, an old rusted friends NVIDIA GPU desktop computer, and pretty much any device that can install Kubernetes and the ZeroTier client.
 
-## What's Inside?
+Come include your friends too! Because it doesn't matter where in the world you are (as long as you have internet), you can join the cluster and start contributing to the compute power. For instance, I have a couple of machines at my own apartment (where I don't have access to the router as I share it with roomates). I have another couple machines at my local office. Then a couple of buddies of mine setup some machines as well. Finally, I have a client on my phone and personal laptop.
 
-- [Kafka](https://kafka.apache.org/)
-- [Dask](https://dask.org/)
-- [Argo](https://argoproj.github.io/)
-- [Minio](https://min.io/)
-- [Prometheus](https://prometheus.io/docs/introduction/overview/)
-
-This is kinda my dream suite.
-I have a messaging bus (Kafka) that is really scaliable.
-I deploy Dask because it's more fun than Spark and it's not Spark.
-Argo is here because it's such a cool tool for automation when you know how to use it.
-Minio is a must because it's my distributed storage system.
-InfluxDB is here because it's such a kick ass time series database.
+# Installation
 
 ## Install Zerotier
 
@@ -67,3 +57,13 @@ curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--node-ip=172.23.0.102 --flanne
 ```
 
 Then make sure you update the `/etc/hosts` file on each one of the nodes with the newly provisioned worker node
+
+# Future Plans
+
+- [] add label-studio UI to start annotating data
+- [] add segment-anything ML auto-annotation for label-studio for faster annotation
+- [] add nginx-ingress-controller and MetalLB to replace NodePort
+- [] add kubby-node operator to add nodes to the cluster. Integrate with AWS, Vast.AI
+- [] add DNS in ZeroTier mapping to MetalLB
+- [] add Spark Cluster
+- [] add support for multiple Kubernetes clusters

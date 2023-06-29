@@ -1,0 +1,15 @@
+apiVersion: skaffold/v4beta1
+kind: Config
+metadata:
+  name: label-studio
+manifests:
+  helm:
+    releases:
+      - name: label-studio
+        remoteChart: label-studio
+        namespace: label
+        version: 1.1.4
+        createNamespace: false
+        repo: https://charts.heartex.com
+deploy:
+  helm: {}
