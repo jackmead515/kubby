@@ -9,20 +9,35 @@ manifests:
         remoteChart: dask
         namespace: dask
         version: 2023.1.0
-        createNamespace: false
+        createNamespace: true
         repo: https://helm.dask.org/
         setValues:
           scheduler.serviceType: NodePort
           worker.replicas: 4
           jupyter.enabled: false
-          worker.resources:
-            limits:
-              cpu: 2
-              memory: 4Gi
-            requests:
-              cpu: 2
-              memory: 4Gi
+          scheduler.image.tag: 2023.3.2-py3.10
+          worker.image.repository: jackmead515/dask-worker
+          worker.image.tag: v5
           worker.custom_scheduler_url: "tcp://dask-scheduler.dask.svc.cluster.local:8786"
+          scheduler.affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                  - matchExpressions:
+                      - key: kubernetes.io/hostname
+                        operator: In
+                        values:
+                          - jack-pc
+          worker.affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                  - matchExpressions:
+                      - key: kubernetes.io/hostname
+                        operator: NotIn
+                        values:
+                          - jack-pc
+                          - dellpoweredget110
           worker.mounts:
             volumes:
               - name: data
@@ -30,23 +45,13 @@ manifests:
                   medium: Memory
                   sizeLimit: 64Mi
             volumeMounts:
-              - mountPath: /tmp/biocam
+              - mountPath: /tmp/data
                 name: data
           worker.env:
-            - name: AWS_ACCESS_KEY_ID
-              value: ""
-            - name: AWS_SECRET_ACCESS_KEY
-              value: ""
-            - name: EXTRA_PIP_PACKAGES
-              value: |
-                dask-ml[complete]==2023.3.24 \
-                opencv-python-headless==4.7.0.72 \
-                streamz==0.6.4 \
-                kafka-python==2.0.2 \
-                zarr==2.14.2 \
-                deltalake==0.8.1 \
-                s3fs \
-                boto3 \
-                --upgrade
+            - name: S3_ACCESS_KEY_ID
+              value: admin
+            - name: S3_SECRET_ACCESS_KEY
+              value: admin123
+
 deploy:
   helm: {}
