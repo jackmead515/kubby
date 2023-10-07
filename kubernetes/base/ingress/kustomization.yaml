@@ -8,3 +8,4 @@ resources:
   - dask.yaml
   - minio.yaml
   - label-studio.yaml
+  - fast-sam-api.yaml

@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fast-sam-api
+  labels:
+    app.kubernetes.io/name: fast-sam-api
+    app.kubernetes.io/instance: fast-sam-api
+spec:
+  replicas: 8
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: fast-sam-api
+      app.kubernetes.io/instance: fast-sam-api
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: fast-sam-api
+        app.kubernetes.io/instance: fast-sam-api
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - jack-pad-1
+                      - jack-pad-2
+                      - jack-pad-3
+                      - jack-pc
+                      - jack-laptop
+      containers:
+        - name: fast-sam-api
+          image: jackmead515/fast-sam-api:v3
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8181
+              protocol: TCP
